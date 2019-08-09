@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { Text, View, Alert, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import {
+  Text, View, Alert, StyleSheet, TouchableOpacity, TextInput, ScrollView,
+  ImageBackground,
+  KeyboardAvoidingView
+} from 'react-native';
 import { TODOS } from '../utils/data.js';
 
 
@@ -41,7 +45,7 @@ const TodoItem = ({ todo, idx, onToggleTodo, onDeleteTodo }) => {
 };
 
 
-export default function AllScreen() {
+export default function AllScreen(props) {
 
   const [todoList, setTodoList] = useState(TODOS);
   const [todoBody, setTodoBody] = useState('');
@@ -102,21 +106,34 @@ export default function AllScreen() {
   // };
 
   return (
-    <View style={styles.container}>
-      {todoList.map((todo, idx) => {
-        return <TodoItem key={todo.body} todo={todo} idx={idx} onToggleTodo={onToggleTodo} onDeleteTodo={onDeleteTodo} />;
-      })}
-      <View style={styles.inputContainer}>
-        <TextInput
-          value={todoBody}
-          style={styles.todoInput}
-          onChangeText={text => setTodoBody(text)}
-        />
-        <TouchableOpacity style={styles.button} onPress={onSubmitTodo}>
-          <Text style={styles.buttonText}>Submit</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+
+    <ImageBackground style={styles.container} source={{ uri: "https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwj82t3mqPPjAhVJUd4KHY2rBDMQjRx6BAgBEAQ&url=http%3A%2F%2Fcn-24h.blogspot.com%2F2013%2F09%2Fhinh-nen-canh-ep-thien-nhien-nature.html&psig=AOvVaw3PfJabsZ3HEvT65nCy50ws&ust=1565355230487722" }}>
+      <KeyboardAvoidingView
+        enabled
+        behavior="padding"
+        style={styles.keyBoard}
+      >
+        <ScrollView style={{ flex: 1 }}>
+          <View style={{ marginTop: 20 }}>
+            {/* ... code ... */}
+            {todoList.map((todo, idx) => {
+              return <TodoItem key={todo.body} todo={todo} idx={idx} onToggleTodo={onToggleTodo} onDeleteTodo={onDeleteTodo} />;
+            })}
+            <View style={styles.inputContainer}>
+              <TextInput
+                value={todoBody}
+                style={styles.todoInput}
+                onChangeText={text => setTodoBody(text)}
+              />
+              <TouchableOpacity style={styles.button} onPress={onSubmitTodo}>
+                <Text style={styles.buttonText}>Submit</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </ImageBackground>
+
   );
 }
 
@@ -174,5 +191,14 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontWeight: 'bold'
+  },
+  scrollView: {
+    flex: 1,
+  },
+  keyBoard: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+
   }
 });
