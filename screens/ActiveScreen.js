@@ -45,11 +45,11 @@ const TodoItem = ({ todo, idx, onToggleTodo, onDeleteTodo }) => {
 };
 
 
-export default function CompleteScreen(props) {
+export default function ActiveScreen(props) {
 
   const [todoList, setTodoList] = useState(TODOS);
   const [todoBody, setTodoBody] = useState('');
-  const completeTodoList = todoList.filter(item => item.status === "Done")
+  const completeTodoList = todoList.filter(item => item.status === "Active")
 
   const onSubmitTodo = () => {
     const newTodo = {
@@ -123,8 +123,8 @@ export default function CompleteScreen(props) {
   );
 }
 
-CompleteScreen.navigationOptions = {
-  title: 'Complete Screen',
+ActiveScreen.navigationOptions = {
+  title: 'Acive Screen',
   headerTintColor: '#3dbeff',
 };
 

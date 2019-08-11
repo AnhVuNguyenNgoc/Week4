@@ -9,7 +9,7 @@ import { TODOS } from '../utils/data.js';
 
 const TodoItem = ({ todo, idx, onToggleTodo, onDeleteTodo }) => {
   const statusStyle = {
-    backgroundColor: todo.status === 'Done' ? 'blue' : 'green'
+    backgroundColor: todo.status === 'Done' ? '#ffae3d' : '#be3dff'
   };
 
   const onLongPress = todo => {
@@ -49,6 +49,7 @@ export default function AllScreen(props) {
 
   const [todoList, setTodoList] = useState(TODOS);
   const [todoBody, setTodoBody] = useState('');
+  const [totalTodo, setTotalTodo] = useState({ done: 0, active: 0 });
 
   const onSubmitTodo = () => {
     const newTodo = {
@@ -62,7 +63,14 @@ export default function AllScreen(props) {
   };
 
 
-  const onToggleTodo = id => {
+
+  const onDeleteTodo = id => {
+    const newTodoList = todoList.filter(todo => todo.id !== id);
+    console.log(newTodoList)
+    setTodoList(newTodoList);
+  };
+
+  const onToggleTodo = (id) => {
 
     // log array toList, setToDoList
     const todo = todoList.find(todo => todo.id === id);
@@ -80,45 +88,25 @@ export default function AllScreen(props) {
     }, 1000);
   };
 
-  const onDeleteTodo = id => {
-    const newTodoList = todoList.filter(todo => todo.id !== id);
-    console.log(newTodoList)
-    setTodoList(newTodoList);
-  };
-
   // Lúc đầu mình lại nghĩ đặt trong đây ta ????
-
   // const onLongPress = todo => {
-  //   const prompt = `"${todo.body}"`;
-  //   Alert.alert(
-  //     'Delete your todo?',
-  //     prompt,
-  //     [
-  //       {
-  //         text: 'Cancel',
-  //         onPress: () => console.log('Cancel Pressed'),
-  //         style: 'cancel'
-  //       },
-  //       { text: 'OK', onPress: () => props.onDeleteTodo(todo.id) }
-  //     ],
-  //     { cancelable: true }
-  //   );
-  // };
 
   return (
 
-    <ImageBackground style={styles.container} source={{ uri: "https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwj82t3mqPPjAhVJUd4KHY2rBDMQjRx6BAgBEAQ&url=http%3A%2F%2Fcn-24h.blogspot.com%2F2013%2F09%2Fhinh-nen-canh-ep-thien-nhien-nature.html&psig=AOvVaw3PfJabsZ3HEvT65nCy50ws&ust=1565355230487722" }}>
+    <ImageBackground style={styles.container} source={require('../assets/images/background.jpg')}>
       <KeyboardAvoidingView
         enabled
         behavior="padding"
         style={styles.keyBoard}
       >
         <ScrollView style={{ flex: 1 }}>
-          <View style={{ marginTop: 20 }}>
+          <View style={{ marginTop: "200%" }}>
+           
             {/* ... code ... */}
             {todoList.map((todo, idx) => {
               return <TodoItem key={todo.body} todo={todo} idx={idx} onToggleTodo={onToggleTodo} onDeleteTodo={onDeleteTodo} />;
             })}
+
             <View style={styles.inputContainer}>
               <TextInput
                 value={todoBody}
@@ -138,54 +126,70 @@ export default function AllScreen(props) {
 }
 
 AllScreen.navigationOptions = {
-  title: 'All Todos'
+  title: 'All Todos',
+  headerTintColor: '#3dbeff',
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    resizeMode: 'cover', // or 'stretch'
     alignItems: 'center',
-    backgroundColor: '#fff',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: '#3dbeff',
   },
   todoItem: {
+    flex: 1,
     margin: 5,
     padding: 10,
+    minHeight: 50,
     width: '95%',
-    minHeight: 20,
     color: 'white',
     borderRadius: 5,
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
   todoText: {
     fontSize: 20,
     color: 'white',
     fontWeight: 'bold'
   },
-
   todoInput: {
-    width: '95%',
+    width: '100%',
     minHeight: 30,
-    color: 'white',
+    color: '#5d3dff',
     borderWidth: 1,
-    marginTop: '20%',
+    marginTop: '10%',
     marginBottom: '5%',
-    borderColor: 'grey'
+    borderColor: 'grey',
+    borderRadius: 5,
+    backgroundColor: 'white',
+    padding: 5,
   },
   inputContainer: {
     flex: 1,
-    width: '90%',
+    width: '95%',
     marginTop: 20,
     marginBottom: '10%',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginBottom: 50,
+    marginLeft: 5
   },
   button: {
     height: 50,
     width: '50%',
     borderRadius: 10,
     alignItems: 'center',
-    backgroundColor: 'blue',
+    backgroundColor: '#5d3dff',
     justifyContent: 'center'
   },
   buttonText: {
@@ -194,11 +198,11 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
+    paddingTop: 1000
   },
   keyBoard: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
-
+    justifyContent: 'center'
   }
 });

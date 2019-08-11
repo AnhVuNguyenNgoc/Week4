@@ -32,6 +32,6 @@ const styles = StyleSheet.create({
     fontSize: 30
   },
   bodyText: {
-    fontSize: 50
+    fontSize: 20
   }
 });
